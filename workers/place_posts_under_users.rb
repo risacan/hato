@@ -54,6 +54,6 @@ class PlacePostsUnderUsersWorker
   end
 
   def comment(post_number:, screen_name:)
-    client.create_comment(post_number, body_md: "@#{screen_name} :esa:", user: "esa_bot")
+    client.create_comment(post_number, body_md: "@#{screen_name} :esa: トップ階層に投稿されていたので、記事を個人のカテゴリに移動しました。 適切な階層に記事の移動をおねがいします!", user: "esa_bot")
   end
 end
