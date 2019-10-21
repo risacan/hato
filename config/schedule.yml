@@ -1,3 +1,0 @@
-place_posts_under_users:
-  cron: "0 0 * * *"
-  class: "PlacePostsUnderUsersWorker"

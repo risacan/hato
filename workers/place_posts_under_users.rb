@@ -6,6 +6,8 @@ require "dotenv"
 Dotenv.load
 
 class PlacePostsUnderUsersWorker
+  include Sidekiq::Worker
+
   def perform
     posts.each do |post|
       move_and_comment(
@@ -29,13 +31,13 @@ class PlacePostsUnderUsersWorker
     posts = []
     page = 1
 
-    result = client.posts(q: "on:/", page: page).body
+    result = client.posts(q: "on:/", per_page: 10, page: page).body
     next_page = result["next_page"]
     posts << result["posts"]
 
     while !next_page.nil?
       page += 1
-      result = client.posts(q: "on:/", page: page).body
+      result = client.posts(q: "on:/", per_page: 10, page: page).body
       posts << result["posts"]
 
       next_page = result["next_page"]
@@ -57,3 +59,6 @@ class PlacePostsUnderUsersWorker
     client.create_comment(post_number, body_md: "@#{screen_name} :esa: トップ階層に投稿されていたので、記事を個人のカテゴリに移動しました。 適切な階層に記事の移動をおねがいします!", user: "esa_bot")
   end
 end
+
+# 毎日9時に Worker を動かすぞい
+Sidekiq::Cron::Job.create(name: "PlacePostsUnderUsersWorker - everyday", cron: "0 9 * * *", class: "PlacePostsUnderUsersWorker")
