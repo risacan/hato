@@ -1,0 +1,18 @@
+{
+  "name": "hato",
+  "description": "esa用Worker。root配下の投稿を /Users/screen_name 配下に移動します",
+  "keywords": ["esaio"],
+  "repository": "https://github.com/risacan/hato",
+  "logo": "https://raw.githubusercontent.com/xxx/xxx/master/logo.png",
+  "env": {
+    "ESA_TEAM": {
+      "description": "esaのチーム名",
+      "require": "true"
+    },
+    "ESA_API_TOKEN": {
+      "description": "esaのAPI TOKEN(admin権限)",
+      "require": "true"
+    }
+  },
+  "addons": ["heroku-redis:hobby-dev", "scheduler:standard"]
+}
